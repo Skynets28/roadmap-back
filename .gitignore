@@ -1,0 +1,14 @@
+target/
+*.class
+*.jar
+*.war
+
+.env
+!.env.example
+
+.idea/
+*.iml
+.vscode/
+
+*.log
+logs/

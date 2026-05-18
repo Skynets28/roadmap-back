@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: roadmap-postgres
+    environment:
+      POSTGRES_DB: roadmap_tracker
+      POSTGRES_USER: roadmap_user
+      POSTGRES_PASSWORD: change_me
+    volumes:
+      - roadmap_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U roadmap_user -d roadmap_tracker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  roadmap-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roadmap-api
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8088:8080"
+    restart: unless-stopped
+
+volumes:
+  roadmap_pg_data:

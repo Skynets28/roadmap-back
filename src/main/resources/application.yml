@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: roadmap-tracker
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:roadmap_tracker}
+    username: ${DB_USER:roadmap_user}
+    password: ${DB_PASSWORD:change_me}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev_secret_at_least_32_chars_long_change_me}
+    expiration-seconds: ${JWT_EXPIRATION_SECONDS:86400}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  users:
+    user1:
+      email: ${APP_USER_1_EMAIL:}
+      password-hash: ${APP_USER_1_PASSWORD_HASH:}
+    user2:
+      email: ${APP_USER_2_EMAIL:}
+      password-hash: ${APP_USER_2_PASSWORD_HASH:}
+    user3:
+      email: ${APP_USER_3_EMAIL:}
+      password-hash: ${APP_USER_3_PASSWORD_HASH:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  level:
+    com.sebastian.roadmaptracker: INFO
+    org.springframework.security: WARN
+    org.flywaydb: INFO
