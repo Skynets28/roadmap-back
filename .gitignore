@@ -10,5 +10,7 @@ target/
 *.iml
 .vscode/
 
+.claude/settings.local.json
+
 *.log
 logs/
